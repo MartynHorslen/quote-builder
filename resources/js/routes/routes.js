@@ -7,13 +7,13 @@ export default {
         {
             path:'/',
             name:"Home",
-            component:()=>import('@/components/Home.vue')
+            component:()=>import('@/views/Home.vue')
         }
         ,
         {
             path:'/about',
             name:"About",
-            component:()=>import('@/components/About.vue')
+            component:()=>import('@/views/About.vue')
         }
     ]
 }
