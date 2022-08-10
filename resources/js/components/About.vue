@@ -1,0 +1,7 @@
+<script>
+    export default {};
+</script>
+
+<template>
+    <p>About page</p>
+</template>
