@@ -3,5 +3,4 @@
 </script>
 
 <template>
-    <p>Quotes page</p>
 </template>

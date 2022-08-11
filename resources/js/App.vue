@@ -1,9 +1,11 @@
 <script>
-import Navigation from './components/Navigation.vue'
+import Navigation from './components/Navigation.vue';
+import PageHeader from './components/PageHeader.vue';
 
 export default {
   components: {
-    'navigation': Navigation
+    'navigation': Navigation,
+    'page-header': PageHeader
   },
 
   data() {
@@ -23,6 +25,7 @@ export default {
 <template>
   <div class="wrapper" :class="{sidebarActive: this.sidebar}">
     <navigation @sidebar="sidebarActive"></navigation>
+    <page-header></page-header>
     <router-view></router-view>
   </div>
 </template>
@@ -33,7 +36,7 @@ export default {
     width: 100%;
   }
   .sidebarActive {
-    margin-left: 60%;
+    margin-left: 50%;
     overflow-x: hidden;
   }
   body {

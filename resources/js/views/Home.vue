@@ -3,5 +3,7 @@
 </script>
 
 <template>
-    <p>Home page</p>
+    <div class="container">
+        <p>hello world</p>
+    </div>
 </template>
