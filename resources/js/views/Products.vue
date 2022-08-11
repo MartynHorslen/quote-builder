@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <p>About page</p>
+    <p>Products page</p>
 </template>

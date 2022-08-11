@@ -8,12 +8,16 @@ export default {
             path:'/',
             name:"Home",
             component:()=>import('@/views/Home.vue')
-        }
-        ,
+        },
         {
-            path:'/about',
-            name:"About",
-            component:()=>import('@/views/About.vue')
+            path:'/products',
+            name:"Products",
+            component:()=>import('@/views/Products.vue')
+        },
+        {
+            path:'/quotes',
+            name:"Quotes",
+            component:()=>import('@/views/Quotes.vue')
         }
     ]
 }

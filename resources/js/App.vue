@@ -21,13 +21,17 @@ export default {
 </script>
 
 <template>
-  <div :class="{sidebarActive: this.sidebar}">
+  <div class="wrapper" :class="{sidebarActive: this.sidebar}">
     <navigation @sidebar="sidebarActive"></navigation>
     <router-view></router-view>
   </div>
 </template>
 
 <style>
+  .wrapper {
+    height: 100%;
+    width: 100%;
+  }
   .sidebarActive {
     margin-left: 60%;
     overflow-x: hidden;
