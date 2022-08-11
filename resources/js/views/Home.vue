@@ -26,4 +26,12 @@
     #hero-img {
         filter: brightness(0.4);
     }
+    @media (min-width: 576px){
+        #hero-img{
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+    }
 </style>

@@ -21,7 +21,7 @@ export default {
         padding: 10px 30px;
     }
     #page-footer {
-        background-color: #64b5f6;
+        background-color: var(--primary);
         color: #fff;
     }
     .footer-title {

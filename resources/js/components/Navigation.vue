@@ -19,8 +19,8 @@ export default {
 </script>
 
 <template>
-<nav class="">
-  <div class="container-fluid py-md-3 justify-content-start justify-content-md-between d-md-flex flex-md-row d-flex align-items-center">
+<nav class="container">
+  <div class="py-md-3 justify-content-start justify-content-md-between d-md-flex flex-md-row d-flex align-items-center">
     <button class="hamburger hamburger--spin d-md-none" type="button" :class="{'is-active': isActive}" @click="$emit('sidebar'), active()">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
@@ -47,13 +47,14 @@ export default {
     display: none;
   }
   .overlay {
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
     height: 100%;
     width: 100%;
     display:flex;
     flex-direction: row;
+    z-index: 10;
   }
   .fixedSidebar {
     flex-basis: 50%;
@@ -61,6 +62,8 @@ export default {
   }
   .transparent {
     flex-basis: 50%;
+    background-color: #000;
+    opacity: 0.6;
   }
   .fixedSidebar ul {
     padding: 0;
@@ -69,7 +72,7 @@ export default {
     border-bottom: 1px solid lightgray;
     padding: 10px 15px;
   }
-  .fixedSidebar li:first-child {
+  .fixedSidebar a:first-child li {
     border-top: 1px solid lightgray;
   }
   .fixedSidebar a {
@@ -88,7 +91,9 @@ export default {
     text-align: center;
     padding: 10px 0;
   }
-
+  .hamburger {
+    padding: 15px 15px 15px 0px;
+  }
   .hamburger-inner {
     margin-top: 2px;
   }
@@ -113,7 +118,7 @@ export default {
       flex-basis: 100%;
     }
     .fixexSidebar a, a {
-      color: #64b5f6 !important;
+      color: var(--primary) !important;
       text-decoration: none;
     }
     .fixedSidebar ul {
@@ -129,8 +134,8 @@ export default {
     .fixedSidebar li {
       cursor: pointer;
     }
-    .fixedSidebar li:hover, a li:hover, .logo:hover {
-      color: #0a4db1;
+    .fixedSidebar li:hover, a li:hover, a:hover {
+      color: var(--primary-hover) !important;
       background-color: #fff !important;
     }
     .fixedSidebar .menu {

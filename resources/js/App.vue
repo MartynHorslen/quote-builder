@@ -34,6 +34,10 @@ export default {
 </template>
 
 <style>
+  :root {
+    --primary: #64b5f6;
+    --primary-hover:#1869AA;
+  }
   .wrapper {
     height: 100%;
     width: 100%;
@@ -46,6 +50,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100vh;
+    overflow-x: hidden;
   }
   #app {
     height: 100%;
