@@ -1,11 +1,13 @@
 <script>
 import Navigation from './components/Navigation.vue';
 import PageHeader from './components/PageHeader.vue';
+import PageFooter from './components/PageFooter.vue';
 
 export default {
   components: {
     'navigation': Navigation,
-    'page-header': PageHeader
+    'page-header': PageHeader,
+    'page-footer': PageFooter
   },
 
   data() {
@@ -27,6 +29,7 @@ export default {
     <navigation @sidebar="sidebarActive"></navigation>
     <page-header></page-header>
     <router-view></router-view>
+    <page-footer></page-footer>
   </div>
 </template>
 
