@@ -11,6 +11,9 @@
 
         <!-- Hamburger Spinner -->
         @vite('resources/css/hamburgers.css') 
+
+        <!-- FontAwesome Icons -->
+        <script src="https://kit.fontawesome.com/f0067c17da.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="app"></div>
