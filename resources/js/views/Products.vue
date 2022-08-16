@@ -1,5 +1,27 @@
 <script>
-    export default {};
+import axios from 'axios';
+// import { ref } from 'vue';
+
+    export default {
+        data() {
+            return {
+                products: ''
+            }
+        },
+
+        methods: {
+            getProducts() {
+                axios.get('api/products')
+                    .then(( {data} ) => {
+                        this.products = data.products;
+                    })
+            }
+        },
+
+        mounted() {
+            this.getProducts();
+        }
+    };
 </script>
 
 <template>
@@ -12,31 +34,14 @@
         <button id="add-product" class="btn btn-primary">Create Product</button>
     </div>
     <div class="row d-flex flex-column flex-sm-row gap-3 gap-sm-4 my-3 justify-content-between">
-        <div class="card">
-            <img src="https://media.jewson.co.uk/f_auto,q_auto/t_Regular/global/product-images/66209" class="card-img-top" alt="...">
+        <div class="card" v-for="product in products" :key="product.id">
+            <img :src="product.image" class="card-img-top">
             <div class="card-body">
-                <h5 class="card-title">Jewson Sharp Concreting Sand Single Trip - Large Bunk Bag</h5>
-                <p class="card-text">Size: 800kg</p>
-                <p class="card-text">SKU: AGSTB005</p>
-                <p class="card-text">£71.94</p>
-                <p class="card-text">inc VAT Each</p>
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">Size: {{ product.weight }} kg</p>
+                <p class="card-text">SKU: {{ product.SKU }}</p>
+                <p class="card-text">£{{ product.price }}</p>
                 <a href="#" class="btn btn-primary">Add to Quote</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/3000" class="card-img-top img-fluid" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/3000" class="card-img-top img-fluid" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
     </div>
@@ -73,7 +78,7 @@
     }
     .card-img-top {
         height: 150px;
-        object-fit: contain;
+        object-fit: cover;
     }
     @media (min-width: 576px){
         #search {
