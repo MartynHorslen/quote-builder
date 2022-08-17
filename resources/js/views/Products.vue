@@ -5,7 +5,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            products: ''
+            products: '',
+            loading: true
         }
     },
 
@@ -13,13 +14,28 @@ export default {
         getProducts() {
             axios.get('api/products')
                 .then(({ data }) => {
+                    data.products.forEach((product) => {
+                        product['quantity'] = 0;
+                    });
                     this.products = data.products;
+                    localStorage.productData = JSON.stringify(data.products);
+                    this.loading = false;
                 })
+        },
+
+        addQuote(id) {
+            let index = this.products.findIndex(element => element.id == id);
+            console.log("£" + this.products[index].quantity * this.products[index].price);
         }
     },
 
     mounted() {
-        this.getProducts();
+        if (localStorage.productData) {
+            this.products = JSON.parse(localStorage.productData);
+            this.loading = false;
+        } else {
+            this.getProducts();
+        }
     }
 };
 </script>
@@ -34,16 +50,21 @@ export default {
             </div>
         </div>
 
+        <p v-if="loading">Loading...</p>
         <div class="row d-flex flex-column flex-sm-row gap-3 gap-sm-4 my-3 justify-content-between">
 
-            <div class="card col-md-4" v-for="product in products" :key="product.id">
+            <div class="card col-md-4 p-3" v-for="product in products" :key="product.id">
                 <img :src="product.image" class="card-img-top">
-                <div class="card-body d-flex flex-column justify-content-space-between">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">Size: {{ product.weight }} kg</p>
                     <p class="card-text">SKU: {{ product.SKU }}</p>
                     <p class="card-text">£{{ product.price }}</p>
-                    <a href="#" class="btn btn-primary">Add to Quote</a>
+                </div>
+                <div class="card-btn">
+                    <label for="customRange1" class="form-label">Quantity: {{ product.quantity }}</label>
+                    <input type="range" class="form-range " id="customRange1" max="100" v-model="product.quantity">
+                    <a href="#" class="btn btn-primary w-100" @click="addQuote(product.id)">Add to Quote</a>
                 </div>
             </div>
 
@@ -85,9 +106,11 @@ export default {
 .row {
     --bs-gutter-x: 0rem;
 }
+
 .card {
     flex: 1 1 220px;
 }
+
 .card-img-top {
     height: 150px;
     object-fit: cover;

@@ -12,7 +12,11 @@ export default {
 
   methods: {
     active(){
-      this.isActive = ! this.isActive
+      if (window.innerWidth < 768) {
+        this.isActive = ! this.isActive
+      } else {
+        this.isActive = false
+      }
     }
   }
 }
@@ -117,7 +121,7 @@ export default {
       background-color: transparent;
       flex-basis: 100%;
     }
-    .fixexSidebar a, a {
+    .fixedSidebar a {
       color: var(--primary) !important;
       text-decoration: none;
     }

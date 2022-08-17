@@ -18,14 +18,18 @@ export default {
 
   methods: {
     sidebarActive() {
-      this.sidebar = !this.sidebar;
+      if (window.innerWidth < 768) {
+        this.sidebar = !this.sidebar;
+      } else {
+        this.sidebar = false
+      }
     }
   }
 }
 </script>
 
 <template>
-  <div class="wrapper" :class="{sidebarActive: this.sidebar}">
+  <div class="wrapper" :class="{ sidebarActive: this.sidebar }">
     <navigation @sidebar="sidebarActive"></navigation>
     <page-header></page-header>
     <router-view></router-view>
@@ -34,25 +38,29 @@ export default {
 </template>
 
 <style>
-  :root {
-    --primary: #64b5f6;
-    --primary-hover:#1869AA;
-  }
-  .wrapper {
-    height: 100%;
-    width: 100%;
-  }
-  .sidebarActive {
-    margin-left: 50%;
-    overflow-x: hidden;
-  }
-  body {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow-x: hidden;
-  }
-  #app {
-    height: 100%;
-  }
+:root {
+  --primary: #64b5f6;
+  --primary-hover: #1869AA;
+}
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.sidebarActive {
+  margin-left: 50%;
+  overflow-x: hidden;
+}
+
+body {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+#app {
+  height: 100%;
+}
 </style>
