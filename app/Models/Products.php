@@ -10,4 +10,10 @@ class Products extends Model
     use HasFactory;
     
     protected $guarded = [];
+
+    public function scopeFilter($query, array $filters) 
+    {
+        $query->when($filters['search'] ?? false, fn ($query, $search) => 
+            $query->where('name', 'like', '%' . request('search') . '%'));
+    }
 }

@@ -19,6 +19,7 @@ export default {
     #page-header {
         background-color: var(--primary);
         color: #fff;
+        margin-top: 61px;
     }
     .page-title {
         margin-bottom: 0;

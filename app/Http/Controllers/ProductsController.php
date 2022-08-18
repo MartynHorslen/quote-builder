@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -13,10 +14,10 @@ class ProductsController extends Controller
      *
      * @return void
      */
-    
+
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -24,38 +25,11 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Products $products)
+    public function index()
     {
-        return $products;
-    }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store()
-    {
-        //
-    }
-
-    public function edit(Products $products)
-    {
-        //
-    }
-    
-    public function update(Products $products)
-    { 
-        //        
-    }
-
-    public function destroy(Products $products)
-    {  
-        //
-    }
-
-    public function show(Products $products)
-    {
-        //
+        return [
+            'products' => Products::latest()->filter(request(['search']))->paginate(10)
+        ];
     }
 }

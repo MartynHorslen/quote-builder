@@ -153,5 +153,8 @@ export default {
     .links {
       width: auto;
     }
+    .links ul a {
+      text-decoration: none;
+    }
   }
 </style>
