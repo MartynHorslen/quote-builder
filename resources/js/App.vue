@@ -56,7 +56,7 @@ export default {
 body {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow-x: hidden;
 }
 

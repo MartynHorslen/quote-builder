@@ -23,8 +23,8 @@ export default {
 </script>
 
 <template>
-<nav class="container">
-  <div class="py-md-3 justify-content-start justify-content-md-between d-md-flex flex-md-row d-flex align-items-center">
+<nav class="fixed-top bg-white border-bottom" :class="isActive ? 'navLeft' : ''">
+  <div class="px-5 py-md-3 justify-content-start justify-content-md-between d-md-flex flex-md-row d-flex align-items-center">
     <button class="hamburger hamburger--spin d-md-none" type="button" :class="{'is-active': isActive}" @click="$emit('sidebar'), active()">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
@@ -35,7 +35,7 @@ export default {
       <div class="flex-grow-0" :class="isActive ? 'fixedSidebar' : 'hideSidebar'">
           <h2 class="menu d-md-none">Menu</h2>
           <ul class="ms-md-auto my-2 my-md-0 mb-md-0 gap-3 me-md-3 d-md-flex list-unstyled justify-content-md-end">
-            <router-link to="/" class="d-md-none" @click="$emit('sidebar'), active()"><li>Home</li></router-link>
+            <router-link to="/" @click="$emit('sidebar'), active()"><li>Home</li></router-link>
             <router-link to="/products" @click="$emit('sidebar'), active()"><li>Products</li></router-link>
             <router-link to="/quotes" @click="$emit('sidebar'), active()"><li>Quotes</li></router-link>
           </ul>
@@ -51,7 +51,7 @@ export default {
     display: none;
   }
   .overlay {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     height: 100%;
@@ -59,6 +59,9 @@ export default {
     display:flex;
     flex-direction: row;
     z-index: 10;
+  }
+  .navLeft {
+    left: 50%;
   }
   .fixedSidebar {
     flex-basis: 50%;
