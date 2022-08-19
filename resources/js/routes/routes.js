@@ -15,6 +15,11 @@ export default {
             component:()=>import('@/views/Products.vue')
         },
         {
+            path:'/products/create',
+            name:"Create a Product",
+            component:()=>import('@/views/CreateProduct.vue')
+        },
+        {
             path:'/quotes',
             name:"Quotes",
             component:()=>import('@/views/Quotes.vue')

@@ -19,6 +19,8 @@ export default {
 
     methods: {
         getProducts(page = 1, search = this.input) {
+            this.products = [];
+            this.loading = true;
             let url = 'api/products';
             if (page) {
                 url += '?page=' + page;
