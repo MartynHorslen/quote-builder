@@ -13,7 +13,8 @@ export default {
             quote: [],
             loading: true,
             quoteActive: false,
-            input: ''
+            input: '',
+            email: ''
         }
     },
 
@@ -29,21 +30,34 @@ export default {
                 url += '&search=' + search;
             }
             axios.get(url)
-                .then(({ data }) => {
-                    data.products.data.forEach((product) => {
-                        product['quantity'] = 0;
-                    });
-                    this.products = data.products;
-                    localStorage.productData = JSON.stringify(data.products);
-                    localStorage.input = search;
-                    this.loading = false;
-                })
+            .then(({ data }) => {
+                data.products.data.forEach((product) => {
+                    product['quantity'] = 0;
+                });
+                this.products = data.products;
+                localStorage.productData = JSON.stringify(data.products);
+                localStorage.input = search;
+                this.loading = false;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         },
 
         addQuote(id) {
             let index = this.products.data.findIndex(element => element.id == id);
+
+            let inQuote = this.quote.findIndex(element => element.id == id);
+            console.log(inQuote);
+
             if (this.products.data[index].quantity > 0) {
-                this.quote.push(JSON.parse(JSON.stringify(this.products.data[index])));
+
+                if (inQuote >= 0){
+                    this.quote[inQuote].quantity = parseInt(this.quote[inQuote].quantity) + parseInt(this.products.data[index].quantity);
+                } else {
+                    this.quote.push(JSON.parse(JSON.stringify(this.products.data[index])));
+                }
+
                 localStorage.quote = JSON.stringify(this.quote);
             }
         },
@@ -62,6 +76,25 @@ export default {
         quoteToggle() {
             this.quoteActive = !this.quoteActive;
         },
+
+        newQuote() {
+            this.quote = [];
+            localStorage.quote = '';
+        },
+
+        saveQuote() {
+            let url = 'api/products';
+            axios.post(url, {
+                email: this.email,
+                quote: this.quote
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
     },
 
     mounted() {
@@ -138,7 +171,7 @@ export default {
                                 <span class="icon" @click="removeItem(index)">
                                     <i class="mb-0 fa-1x fa-solid fa-circle-xmark"></i>
                                 </span>
-                                <p class="item">{{ quoteItem.name.substr(0, 25) + '...' }} - {{ quoteItem.quantity }}
+                                <p class="item">{{ quoteItem.name.substr(0, 25) + '...' }} - <span @click="">{{ quoteItem.quantity }}</span>
                                 </p>
                             </div>
 
@@ -147,8 +180,16 @@ export default {
                     </ul>
                     <div class="total">Total: £{{ subTotal().toFixed(2) }}</div>
                 </div>
+
+                    
                 <div class="card-btn">
-                    <a href="#" class="btn btn-primary w-100" @click="addQuote(product.id)">Submit</a>
+                    <div class="form-outline mb-3">
+                        <input class="form-controll w-100" placeholder="Email Address" v-model="email"/>
+                    </div>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="btn btn-primary w-50" @click="newQuote">New Quote</a>
+                        <a href="#" class="btn btn-success w-50" @click="saveQuote">Save Quote</a>
+                    </div>
                 </div>
             </div>
         </div>

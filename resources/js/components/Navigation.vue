@@ -38,6 +38,7 @@ export default {
             <router-link to="/" @click="$emit('sidebar'), active()"><li>Home</li></router-link>
             <router-link to="/products" @click="$emit('sidebar'), active()"><li>Products</li></router-link>
             <router-link to="/quotes" @click="$emit('sidebar'), active()"><li>Quotes</li></router-link>
+            <router-link to="/admin" @click="$emit('sidebar'), active()"><li>Admin</li></router-link>
           </ul>
         </div>
       <div class="transparent" @click="$emit('sidebar'), active()"></div>

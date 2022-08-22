@@ -6,7 +6,6 @@ export default {}
     <div id="page-header">
         <div class="container d-flex flex-row justify-content-between align-items-center">
             <h3 class="page-title">{{ $route.name }}</h3>
-            <router-link to="/products/create"><button v-if="$route.name == 'Products'" type="button"  class="btn btn-outline-light">Create Product</button></router-link>
         </div>
     </div>
 </template>
