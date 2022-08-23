@@ -12,9 +12,11 @@ export default {
             products: {},
             quote: [],
             loading: true,
-            quoteActive: false,
+            quoteActive: true,
             input: '',
-            email: ''
+            email: '',
+            error: '',
+            message: ''
         }
     },
 
@@ -83,17 +85,36 @@ export default {
         },
 
         saveQuote() {
-            let url = 'api/products';
-            axios.post(url, {
-                email: this.email,
-                quote: this.quote
-            })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            if (! this.email) {
+                this.error = "Email is required";
+                return
+            }
+
+            //Regex patterns
+            const test = "^[a-z0-9!#$%&'*+\/=?^_`\"{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9\[](?:[a-z0-9-]*[a-z0-9])?(?:\.){0,1})+[a-z]{2}(?:[a-z0-9-]*[a-z0-9])?$";
+
+            //Regex test function
+            let regex = new RegExp (test);
+            let validEmail = regex.test(this.email);
+
+            if (validEmail){
+                let url = 'api/products';
+                axios.post(url, {
+                    email: this.email,
+                    quote: this.quote
+                })
+                .then((response) => {
+                    this.error = '';
+                    this.email = '';
+                    alert(response.data);
+                    this.newQuote();
+                })
+                .catch((error) => {
+                    this.error = error;
+                });
+            } else {
+                this.error = 'Invalid Email';
+            }
         }
     },
 
@@ -185,10 +206,11 @@ export default {
                 <div class="card-btn">
                     <div class="form-outline mb-3">
                         <input class="form-controll w-100" placeholder="Email Address" v-model="email"/>
+                        <small v-if="error" class="text-danger">{{ error }}</small>
                     </div>
                     <div class="d-flex gap-3">
-                        <a href="#" class="btn btn-primary w-50" @click="newQuote">New Quote</a>
-                        <a href="#" class="btn btn-success w-50" @click="saveQuote">Save Quote</a>
+                        <button href="#" class="btn btn-primary w-50" @click="newQuote">New Quote</button>
+                        <button href="#" class="btn btn-success w-50" @click="saveQuote">Save Quote</button>
                     </div>
                 </div>
             </div>
@@ -272,7 +294,7 @@ export default {
 }
 
 .card-body {
-    max-height: calc(100vh - 201px);
+    max-height: calc(100vh - 271px);
 }
 
 .cost {
