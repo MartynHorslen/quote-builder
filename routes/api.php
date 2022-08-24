@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\QuotesController;
 
 
 use App\Models\Products;
@@ -23,4 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('products', [ProductsController::class, 'index']);
-Route::post('products', [ProductsController::class, 'store']);
+
+Route::get('quotes', [QuotesController::class, 'index']);
+Route::post('quotes', [QuotesController::class, 'store']);
+Route::post('update', [QuotesController::class, 'update']);

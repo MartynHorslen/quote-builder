@@ -16,7 +16,8 @@ export default {
             input: '',
             email: '',
             error: '',
-            message: ''
+            message: '',
+            editField: ''
         }
     },
 
@@ -32,18 +33,23 @@ export default {
                 url += '&search=' + search;
             }
             axios.get(url)
-            .then(({ data }) => {
-                data.products.data.forEach((product) => {
-                    product['quantity'] = 0;
+                .then(({ data }) => {
+                    console.log(data.products.data.length);
+                    if (data.products.data.length == 0) {
+                        this.message = 'There are no results. Please try another search.';
+                    }
+                    data.products.data.forEach((product) => {
+                        product['quantity'] = 0;
+                    });
+                    this.products = data.products;
+                    localStorage.productData = JSON.stringify(data.products);
+                    localStorage.input = search;
+                    this.loading = false;
+                })
+                .catch((error) => {
+                    this.message = 'Server Error. Please contact support.';
+                    this.loading = false;
                 });
-                this.products = data.products;
-                localStorage.productData = JSON.stringify(data.products);
-                localStorage.input = search;
-                this.loading = false;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
         },
 
         addQuote(id) {
@@ -54,7 +60,7 @@ export default {
 
             if (this.products.data[index].quantity > 0) {
 
-                if (inQuote >= 0){
+                if (inQuote >= 0) {
                     this.quote[inQuote].quantity = parseInt(this.quote[inQuote].quantity) + parseInt(this.products.data[index].quantity);
                 } else {
                     this.quote.push(JSON.parse(JSON.stringify(this.products.data[index])));
@@ -85,7 +91,7 @@ export default {
         },
 
         saveQuote() {
-            if (! this.email) {
+            if (!this.email) {
                 this.error = "Email is required";
                 return
             }
@@ -94,27 +100,36 @@ export default {
             const test = "^[a-z0-9!#$%&'*+\/=?^_`\"{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9\[](?:[a-z0-9-]*[a-z0-9])?(?:\.){0,1})+[a-z]{2}(?:[a-z0-9-]*[a-z0-9])?$";
 
             //Regex test function
-            let regex = new RegExp (test);
+            let regex = new RegExp(test);
             let validEmail = regex.test(this.email);
 
-            if (validEmail){
-                let url = 'api/products';
+            if (validEmail) {
+                let url = 'api/quotes';
                 axios.post(url, {
                     email: this.email,
                     quote: this.quote
                 })
-                .then((response) => {
-                    this.error = '';
-                    this.email = '';
-                    alert(response.data);
-                    this.newQuote();
-                })
-                .catch((error) => {
-                    this.error = error;
-                });
+                    .then((response) => {
+                        this.error = '';
+                        this.email = '';
+                        alert(response.data);
+                        this.newQuote();
+                    })
+                    .catch((error) => {
+                        this.error = error;
+                    });
             } else {
                 this.error = 'Invalid Email';
             }
+        },
+        focusField(index) {
+            this.editField = index;
+        },
+        blurField() {
+            this.editField = '';
+        },
+        showField(index) {
+            return (this.editField === index && this.editField !== '')
         }
     },
 
@@ -147,10 +162,11 @@ export default {
                 </div>
             </div>
 
-            <Pagination class="justify-content-center" size="small" :limit=3 :data="products" @pagination-change-page="getProducts" />
+            <Pagination class="justify-content-center" size="small" :limit=3 :data="products"
+                @pagination-change-page="getProducts" />
 
             <p v-if="loading">Loading...</p>
-            <p v-if="!loading && products.length == 0">There are no results. Please try another search.</p>
+            <p v-if="!loading && products.data.length == 0">{{ message }}</p>
             <div class="row d-flex flex-column flex-sm-row gap-3 gap-sm-4 my-3 justify-content-between">
 
                 <div class="card col-md-4 p-3" v-for="product in products.data" :key="product.id">
@@ -170,7 +186,8 @@ export default {
 
             </div>
 
-            <Pagination class="justify-content-center" size="small" :limit=3 :data="products" @pagination-change-page="getProducts" />
+            <Pagination class="justify-content-center" size="small" :limit=3 :data="products"
+                @pagination-change-page="getProducts" />
         </div>
 
 
@@ -192,7 +209,12 @@ export default {
                                 <span class="icon" @click="removeItem(index)">
                                     <i class="mb-0 fa-1x fa-solid fa-circle-xmark"></i>
                                 </span>
-                                <p class="item">{{ quoteItem.name.substr(0, 25) + '...' }} - <span @click="">{{ quoteItem.quantity }}</span>
+                                <p class="item">{{ quoteItem.name.substr(0, 25) + '...' }} -
+                                    <span class="field-value" v-show="!showField(index)"
+                                        @click="focusField(index)">{{ quoteItem.quantity }}</span>
+                                    <input v-model="quote[index].quantity" v-show="showField(index)" 
+                                        class="field-value" @focus="focusField(index)"
+                                        @blur="blurField">
                                 </p>
                             </div>
 
@@ -202,10 +224,10 @@ export default {
                     <div class="total">Total: £{{ subTotal().toFixed(2) }}</div>
                 </div>
 
-                    
+
                 <div class="card-btn">
                     <div class="form-outline mb-3">
-                        <input class="form-controll w-100" placeholder="Email Address" v-model="email"/>
+                        <input class="form-controll w-100" placeholder="Email Address" v-model="email" />
                         <small v-if="error" class="text-danger">{{ error }}</small>
                     </div>
                     <div class="d-flex gap-3">
@@ -304,6 +326,10 @@ export default {
 .total {
     text-align: right;
     margin-bottom: 15px
+}
+
+.field-value {
+    width: 50px;
 }
 
 @media (min-width: 576px) {
