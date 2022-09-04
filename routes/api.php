@@ -28,3 +28,7 @@ Route::get('products', [ProductsController::class, 'index']);
 Route::get('quotes', [QuotesController::class, 'index']);
 Route::post('quotes', [QuotesController::class, 'store']);
 Route::post('update', [QuotesController::class, 'update']);
+
+Route::get('loggedin', function () {
+    return request();
+});

@@ -14,6 +14,8 @@
 
         <!-- FontAwesome Icons -->
         <script src="https://kit.fontawesome.com/f0067c17da.js" crossorigin="anonymous"></script>
+
+        <!-- <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script> -->
     </head>
     <body>
         <div id="app"></div>
