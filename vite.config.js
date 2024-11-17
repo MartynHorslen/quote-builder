@@ -8,6 +8,7 @@ export default defineConfig({
         vue(),
         laravel([
             'resources/css/app.css',
+            'resources/css/hamburgers.css',
             'resources/js/app.js',
         ]),
     ],
