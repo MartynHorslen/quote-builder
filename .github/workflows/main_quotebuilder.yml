@@ -29,6 +29,7 @@ jobs:
           echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> .env
           echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+          echo APP_ENV=production >> .env
           cat .env
 
       - name: Check if composer.json exists
