@@ -83,6 +83,9 @@ jobs:
       id-token: write #This is required for requesting the JWT
 
     steps:
+      - name: Check env
+        run: ca .env
+        
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
@@ -97,6 +100,9 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_621E45EAA933455483E9865D6E399F05 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_AAC50E5CFE3B41968D3D48B540FE7325 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_55276AFEF4AB49839A6783D4D23B2524 }}
+
+      - name: Check env
+        run: ca .env
         
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
