@@ -31,6 +31,7 @@ jobs:
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
           echo APP_ENV=production >> .env
           cat .env
+          ls
 
       - name: Check if composer.json exists
         id: check_files
@@ -90,9 +91,6 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-
-      - name: Check env
-        run: cat .env
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -100,9 +98,6 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_621E45EAA933455483E9865D6E399F05 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_AAC50E5CFE3B41968D3D48B540FE7325 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_55276AFEF4AB49839A6783D4D23B2524 }}
-
-      - name: Check env
-        run: cat .env
         
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
