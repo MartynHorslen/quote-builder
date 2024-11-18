@@ -31,7 +31,7 @@ jobs:
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
           echo APP_ENV=production >> .env
           cat .env
-          ls
+          ls -a
 
       - name: Check if composer.json exists
         id: check_files
