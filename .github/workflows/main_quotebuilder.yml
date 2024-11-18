@@ -82,10 +82,7 @@ jobs:
     permissions:
       id-token: write #This is required for requesting the JWT
 
-    steps:
-      - name: Check env
-        run: cat .env
-        
+    steps:        
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
@@ -93,6 +90,9 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+
+      - name: Check env
+        run: cat .env
       
       - name: Login to Azure
         uses: azure/login@v2
